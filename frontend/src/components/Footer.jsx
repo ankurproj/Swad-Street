@@ -44,7 +44,7 @@ const Footer = () => {
         </div>
 
         <div className="footer-bottom-section">
-          <p>© 2025 Zomato Clone. All rights reserved. Made with ❤️ for food lovers.</p>
+          <p>© 2025 Swad Street. All rights reserved. Made with ❤️ for food lovers.</p>
         </div>
       </div>
     </footer>

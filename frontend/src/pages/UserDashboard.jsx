@@ -1,8 +1,30 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/dashboard.css';
 
 const UserDashboard = () => {
+  const navigate = useNavigate();
+  const user = useMemo(() => {
+    try { return JSON.parse(localStorage.getItem('user') || 'null'); } catch { return null; }
+  }, []);
+
+  const initials = useMemo(() => {
+    const name = user?.fullName || user?.name || '';
+    if (!name) return 'GU';
+    const parts = name.trim().split(/\s+/);
+    const first = parts[0]?.[0] || '';
+    const last = parts[1]?.[0] || '';
+    return (first + last || first).toUpperCase();
+  }, [user]);
+
+  const handleLogout = async () => {
+    try {
+      await axios.post('http://localhost:3000/api/auth/user/logout', {}, { withCredentials: true });
+    } catch {}
+    localStorage.removeItem('user');
+    navigate('/user/login');
+  };
   // Sample data - in production this would come from API
   const restaurants = [
     { id: 1, name: 'Pizza Paradise', cuisine: 'Italian', rating: 4.5, delivery: '30-40 min', emoji: '🍕' },
@@ -24,15 +46,15 @@ const UserDashboard = () => {
       {/* Header */}
       <header className="dashboard-header">
         <div className="header-content">
-          <Link to="/" className="logo">Zomato</Link>
+          <Link to="/" className="logo">Swad Street</Link>
           <nav className="header-nav">
             <Link to="/user/dashboard" className="nav-link active">Home</Link>
             <Link to="/user/orders" className="nav-link">My Orders</Link>
             <Link to="/user/favorites" className="nav-link">Favorites</Link>
           </nav>
           <div className="user-menu">
-            <div className="user-avatar" title="John Doe">JD</div>
-            <Link to="/user/login" className="btn-logout">Logout</Link>
+            <div className="user-avatar" title={user?.fullName || user?.email || 'Guest'}>{initials}</div>
+            <button onClick={handleLogout} className="btn-logout">Logout</button>
           </div>
         </div>
       </header>

@@ -1,16 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import axios from 'axios';
 import '../styles/auth.css';
 
 const LoginPartner = () => {
   const navigate = useNavigate();
+  const [status, setStatus] = useState({ type: '', message: '' });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    // Navigate to partner dashboard after "login"
-    navigate('/food-partner/dashboard');
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/foodpartner/login",
+        { email, password },
+        { withCredentials: true }
+      );
+      if (response?.data?.foodPartner) {
+        localStorage.setItem('foodPartner', JSON.stringify(response.data.foodPartner));
+      }
+      setStatus({ type: 'success', message: 'Logged in successfully.' });
+      setTimeout(() => navigate('/food-partner/dashboard'), 900);
+    } catch (err) {
+      const msg = err?.response?.data?.message || 'Login failed. Please check your credentials.';
+      setStatus({ type: 'error', message: msg });
+    }
   };
 
   return (
@@ -27,12 +44,17 @@ const LoginPartner = () => {
           </div>
 
           <div className="auth-header">
-            <div className="auth-logo">Zomato Partner</div>
+            <div className="auth-logo">Swad Street Partner</div>
             <h2 className="auth-title">Partner Portal</h2>
             <p className="auth-subtitle">Sign in to manage your restaurant and orders</p>
           </div>
 
           <form className="auth-form" onSubmit={handleSubmit}>
+            {status.message && (
+              <div className={`alert ${status.type === 'success' ? 'alert-success' : 'alert-error'}`}>
+                {status.message}
+              </div>
+            )}
             <div className="form-group">
               <label className="form-label" htmlFor="email">Email Address</label>
               <input

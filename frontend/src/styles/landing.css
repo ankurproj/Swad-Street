@@ -4,6 +4,8 @@
 .landing {
   min-height: 100vh;
   background: var(--bg-primary);
+  /* Offset the fixed Header (64px) */
+  padding-top: 64px;
 }
 
 /* Navigation Bar */

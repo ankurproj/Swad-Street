@@ -1,20 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Header from '../components/Header';
 import '../styles/landing.css';
 
 const Home = () => {
   return (
     <div className="landing">
-      {/* Navigation */}
-      <nav className="landing-nav">
-        <div className="nav-container">
-          <Link to="/" className="nav-logo">Zomato</Link>
-          <div className="nav-links">
-            <Link to="/user/login" className="nav-btn nav-btn-outline">Sign In</Link>
-            <Link to="/user/register" className="nav-btn nav-btn-primary">Get Started</Link>
-          </div>
-        </div>
-      </nav>
+      <Header minimal={false} />
 
       {/* Hero Section */}
       <section className="hero">
@@ -52,7 +44,7 @@ const Home = () => {
       <section className="features">
         <div className="features-container">
           <div className="features-header">
-            <h2 className="features-title">Why Choose Zomato?</h2>
+            <h2 className="features-title">Why Choose Swad Street?</h2>
             <p className="features-subtitle">Experience the best food delivery service</p>
           </div>
 
@@ -149,7 +141,7 @@ const Home = () => {
         <div className="features-container">
           <div className="features-header">
             <h2 className="features-title">For Restaurant Partners</h2>
-            <p className="features-subtitle">Grow your business with Zomato</p>
+            <p className="features-subtitle">Grow your business with Swad Street</p>
           </div>
 
           <div className="features-grid">
@@ -193,7 +185,7 @@ const Home = () => {
         <div className="cta-content">
           <h2 className="cta-title">Ready to Get Started?</h2>
           <p className="cta-text">
-            Join thousands of happy customers and restaurants on Zomato today!
+            Join thousands of happy customers and restaurants on Swad Street today!
           </p>
           <div className="cta-buttons">
             <Link to="/user/register" className="cta-btn-white">
@@ -252,7 +244,7 @@ const Home = () => {
           </div>
 
           <div className="footer-bottom">
-            <p>© 2025 Zomato Clone. All rights reserved. Made with ❤️ for food lovers.</p>
+            <p>© 2025 Swad Street. All rights reserved. Made with ❤️ for food lovers.</p>
           </div>
         </div>
       </footer>

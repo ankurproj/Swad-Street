@@ -23,7 +23,7 @@ const PartnerDashboard = () => {
       {/* Header */}
       <header className="dashboard-header">
         <div className="header-content">
-          <Link to="/" className="logo">Zomato Partner</Link>
+          <Link to="/" className="logo">Swad Street Partner</Link>
           <nav className="header-nav">
             <Link to="/food-partner/dashboard" className="nav-link active">Dashboard</Link>
             <Link to="/food-partner/orders" className="nav-link">Orders</Link>

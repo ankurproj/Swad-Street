@@ -5,7 +5,7 @@
 ### ✅ Components Created
 
 1. **Header Component** (`src/components/Header.jsx`)
-   - Clickable Zomato logo (links to home page)
+   - Clickable Swad Street logo (links to home page)
    - Theme toggle button (Light/Dark/System)
    - Fixed to top for consistent navigation
    - Responsive design
@@ -47,7 +47,7 @@ All authentication pages now include:
 ```
 ┌──────────────────────────────────────┐
 │     Header (Fixed Top)               │
-│  [Zomato Logo] ← Clickable!  [Theme]│
+│  [Swad Street Logo] ← Clickable!  [Theme]│
 └──────────────────────────────────────┘
               ↓ Clicks logo
         Goes to Home (/)
@@ -77,7 +77,7 @@ All authentication pages now include:
 ### For Users:
 
 1. **Visit any auth page** (login/register)
-2. **See header at top** with Zomato logo
+2. **See header at top** with Swad Street logo
 3. **Click logo** → Returns to home page
 4. **Click theme button** → Cycles through themes
 5. **Scroll down** → See footer with links

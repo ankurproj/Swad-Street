@@ -1,4 +1,4 @@
-# Zomato Clone - Frontend Documentation
+# Swad Street - Frontend Documentation
 
 ## 🎯 Project Overview
 A production-level food delivery platform UI with separate user and partner experiences.
@@ -65,7 +65,7 @@ frontend/
 - **Light/Dark Mode**: Automatic system preference detection
 - **CSS Variables**: Centralized theme configuration
 - **Color Palette**:
-  - Primary: #e23744 (Zomato red)
+  - Primary: #e23744 (brand red)
   - Success: #10b981
   - Warning: #f59e0b
   - Info: #3b82f6
