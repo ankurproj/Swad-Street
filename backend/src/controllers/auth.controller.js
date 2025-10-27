@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 async function registerUser(req, res) {
      
-        const { fullName, email, password } = req.body; // Destructure the request body
+        const { fullName, email,phone, password } = req.body; // Destructure the request body
 
         // Check if the user already exists
         const isUserAlreadyExists = await UserModel.findOne({ email });
@@ -17,6 +17,7 @@ async function registerUser(req, res) {
         const user = await UserModel.create({
              fullName,
              email,
+             phone,
              password: hashedPassword})
 
         const token = jwt.sign({
@@ -30,7 +31,8 @@ async function registerUser(req, res) {
             user: {
                 id: user._id,
                 email: user.email,
-                fullName: user.fullName
+                fullName: user.fullName,
+                phone: user.phone
             }
         })
         
@@ -77,7 +79,7 @@ function logoutUser(req, res) {
 }
 async function registerFoodPartner(req, res) {
      
-    const { name, email, password } = req.body; // Destructure the request body
+    const { name, email, password,phone,address,ownerName } = req.body; // Destructure the request body
     // Check if the user already exists
     const isUserAlreadyExists = await foodPartnerModel.findOne({ email });
     if (isUserAlreadyExists) {
@@ -87,7 +89,11 @@ async function registerFoodPartner(req, res) {
     const foodPartner = await foodPartnerModel.create({
          name,
          email,
-         password: hashedPassword})
+         password: hashedPassword,
+         phone,
+         address,
+         ownerName
+        })
     const token = jwt.sign({
         id: foodPartner._id,
     }, process.env.JWT_SECRET)
@@ -99,7 +105,10 @@ async function registerFoodPartner(req, res) {
         foodPartner: {
             id: foodPartner._id,
             email: foodPartner.email,
-            name: foodPartner.name
+            name: foodPartner.name,
+            ownerName: foodPartner.ownerName,
+            phone: foodPartner.phone,
+            address: foodPartner.address
         }
     })
 }
