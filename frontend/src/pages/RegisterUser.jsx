@@ -3,14 +3,28 @@ import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../styles/auth.css';
-
+import axios from 'axios';
 const RegisterUser = () => {
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
+    const fullName = e.target.fullName.value;
+    const email = e.target.email.value;
+    const phone = e.target.phone.value;
+    const password = e.target.password.value;
+
+    const response = await axios.post("http://localhost:3000/api/auth/user/register", {
     // Navigate to user dashboard after "registration"
+      fullName,
+      email,
+      phone,
+      password
+    },{
+      withCredentials: true
+    });
     navigate('/user/dashboard');
+    console.log(response.data);
   };
 
   return (
