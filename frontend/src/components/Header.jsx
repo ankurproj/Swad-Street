@@ -8,6 +8,11 @@ const Header = ({ minimal = false }) => {
   const user = useMemo(() => {
     try { return JSON.parse(localStorage.getItem('user') || 'null'); } catch { return null; }
   }, []);
+  const foodPartner = useMemo(() => {
+    try { return JSON.parse(localStorage.getItem('foodPartner') || 'null'); } catch { return null; }
+  }, []);
+  const actor = foodPartner || user;
+  const role = foodPartner ? 'partner' : (user ? 'user' : null);
 
   useEffect(() => {
     // Load theme from localStorage
@@ -59,20 +64,34 @@ const Header = ({ minimal = false }) => {
   };
 
   const initials = useMemo(() => {
-    const name = user?.fullName || user?.name || '';
+    const name = (role === 'partner' ? (foodPartner?.name || foodPartner?.ownerName) : (user?.fullName || user?.name)) || '';
     if (!name) return 'GU';
     const parts = name.trim().split(/\s+/);
     const first = parts[0]?.[0] || '';
     const last = parts[1]?.[0] || '';
     return (first + last || first).toUpperCase();
-  }, [user]);
+  }, [role, foodPartner, user]);
 
   const handleLogout = async () => {
     try {
+      if (role === 'partner') {
+        await axios.post('http://localhost:3000/api/auth/foodpartner/logout', {}, { withCredentials: true });
+        localStorage.removeItem('foodPartner');
+        navigate('/food-partner/login');
+        return;
+      }
       await axios.post('http://localhost:3000/api/auth/user/logout', {}, { withCredentials: true });
-    } catch {}
-    localStorage.removeItem('user');
-    navigate('/user/login');
+      localStorage.removeItem('user');
+      navigate('/user/login');
+    } catch {
+      if (role === 'partner') {
+        localStorage.removeItem('foodPartner');
+        navigate('/food-partner/login');
+      } else {
+        localStorage.removeItem('user');
+        navigate('/user/login');
+      }
+    }
   };
 
   return (
@@ -92,9 +111,10 @@ const Header = ({ minimal = false }) => {
               <span className="theme-icon">{getThemeIcon()}</span>
               <span className="theme-label">{getThemeLabel()}</span>
             </button>
-            {user ? (
+            {actor ? (
               <div className="header-user-menu">
-                <Link to="/user/dashboard" className="header-user-avatar" title={user.fullName || user.email}>{initials}</Link>
+                <Link to={role === 'partner' ? '/food-partner/dashboard' : '/user/dashboard'} className="header-user-avatar" title={role === 'partner' ? (foodPartner?.name || foodPartner?.ownerName) : (user?.fullName || user?.email)}>{initials}</Link>
+                <span className="role-badge" title={role === 'partner' ? 'Logged in as Partner' : 'Logged in as User'}>{role === 'partner' ? 'Partner' : 'User'}</span>
                 <button className="header-logout-btn" onClick={handleLogout}>Logout</button>
               </div>
             ) : (

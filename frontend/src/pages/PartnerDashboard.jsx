@@ -1,8 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/dashboard.css';
 
 const PartnerDashboard = () => {
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      await axios.post('http://localhost:3000/api/auth/foodpartner/logout', {}, { withCredentials: true });
+    } catch {}
+    localStorage.removeItem('foodPartner');
+    navigate('/food-partner/login');
+  };
   // Sample data - in production this would come from API
   const menuItems = [
     { id: 1, name: 'Margherita Pizza', category: 'Pizza', price: '$12.99', status: 'Available', emoji: '🍕' },
@@ -32,7 +41,7 @@ const PartnerDashboard = () => {
           </nav>
           <div className="user-menu">
             <div className="user-avatar" title="Pizza Paradise">PP</div>
-            <Link to="/food-partner/login" className="btn-logout">Logout</Link>
+            <button onClick={handleLogout} className="btn-logout">Logout</button>
           </div>
         </div>
       </header>
