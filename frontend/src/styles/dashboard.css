@@ -55,6 +55,19 @@
   position: relative;
 }
 
+/* Make buttons with nav-link class look identical to links in the header */
+button.nav-link,
+.btn-link.nav-link {
+  background: transparent;
+  border: none;
+  padding: var(--spacing-sm) 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+button.nav-link:focus { outline: none; }
+
 .nav-link::after {
   content: '';
   position: absolute;

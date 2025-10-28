@@ -1,10 +1,12 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/dashboard.css';
+import ReelsModal from '../components/ReelsModal';
 
 const UserDashboard = () => {
   const navigate = useNavigate();
+  const [showReels, setShowReels] = useState(false);
   const user = useMemo(() => {
     try { return JSON.parse(localStorage.getItem('user') || 'null'); } catch { return null; }
   }, []);
@@ -51,6 +53,7 @@ const UserDashboard = () => {
             <Link to="/user/dashboard" className="nav-link active">Home</Link>
             <Link to="/user/orders" className="nav-link">My Orders</Link>
             <Link to="/user/favorites" className="nav-link">Favorites</Link>
+            <button type="button" className="nav-link btn-link" onClick={() => setShowReels(true)}>Reels</button>
           </nav>
           <div className="user-menu">
             <div className="user-avatar" title={user?.fullName || user?.email || 'Guest'}>{initials}</div>
@@ -170,6 +173,9 @@ const UserDashboard = () => {
           </table>
         </div>
       </main>
+      {showReels && (
+        <ReelsModal onClose={() => setShowReels(false)} />
+      )}
     </div>
   );
 };
