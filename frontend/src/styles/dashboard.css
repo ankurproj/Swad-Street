@@ -94,6 +94,16 @@ button.nav-link:focus { outline: none; }
   gap: var(--spacing-md);
 }
 
+/* Small badge to indicate current role (e.g., Partner) */
+.role-badge {
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  background: var(--accent-light);
+  color: var(--accent-primary);
+}
+
 .user-avatar {
   width: 40px;
   height: 40px;

@@ -64,7 +64,7 @@ const Header = ({ minimal = false }) => {
   };
 
   const initials = useMemo(() => {
-    const name = (role === 'partner' ? (foodPartner?.name || foodPartner?.ownerName) : (user?.fullName || user?.name)) || '';
+    const name = (role === 'partner' ? (foodPartner?.ownerName || foodPartner?.name) : (user?.fullName || user?.name)) || '';
     if (!name) return 'GU';
     const parts = name.trim().split(/\s+/);
     const first = parts[0]?.[0] || '';
@@ -113,8 +113,16 @@ const Header = ({ minimal = false }) => {
             </button>
             {actor ? (
               <div className="header-user-menu">
-                <Link to={role === 'partner' ? '/food-partner/dashboard' : '/user/dashboard'} className="header-user-avatar" title={role === 'partner' ? (foodPartner?.name || foodPartner?.ownerName) : (user?.fullName || user?.email)}>{initials}</Link>
-                <span className="role-badge" title={role === 'partner' ? 'Logged in as Partner' : 'Logged in as User'}>{role === 'partner' ? 'Partner' : 'User'}</span>
+                <Link 
+                  to={role === 'partner' ? '/food-partner/dashboard' : '/user/dashboard'} 
+                  className="header-user-avatar" 
+                  title={role === 'partner' ? (foodPartner?.ownerName || foodPartner?.name) : (user?.fullName || user?.email)}
+                >
+                  {initials}
+                </Link>
+                <span className="role-badge" title={role === 'partner' ? 'Logged in as Partner' : 'Logged in as User'}>
+                  {role === 'partner' ? 'Partner' : 'User'}
+                </span>
                 <button className="header-logout-btn" onClick={handleLogout}>Logout</button>
               </div>
             ) : (

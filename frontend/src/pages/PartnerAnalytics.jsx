@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/dashboard.css';
@@ -10,6 +10,19 @@ export default function PartnerAnalytics(){
     localStorage.removeItem('foodPartner');
     navigate('/food-partner/login');
   };
+
+  const foodPartner = useMemo(() => {
+    try { return JSON.parse(localStorage.getItem('foodPartner') || 'null'); } catch { return null; }
+  }, []);
+  const ownerName = useMemo(() => foodPartner?.ownerName || '', [foodPartner]);
+  const restaurantName = useMemo(() => foodPartner?.name || '', [foodPartner]);
+  const displayName = useMemo(() => ownerName || restaurantName || 'Partner', [ownerName, restaurantName]);
+  const initials = useMemo(() => {
+    const parts = displayName.trim().split(/\s+/);
+    const first = parts[0]?.[0] || '';
+    const last = parts[1]?.[0] || '';
+    return (first + last || first || 'P').toUpperCase();
+  }, [displayName]);
 
   return (
     <div className="dashboard">
@@ -23,7 +36,8 @@ export default function PartnerAnalytics(){
             <Link to="/food-partner/analytics" className="nav-link active">Analytics</Link>
           </nav>
           <div className="user-menu">
-            <div className="user-avatar" title="Partner">PP</div>
+            <div className="user-avatar" title={`${displayName}${ownerName && restaurantName && ownerName !== restaurantName ? ' • ' + (ownerName === displayName ? restaurantName : ownerName) : ''}`}>{initials}</div>
+            <span className="role-badge" title="Logged in as Partner">Partner</span>
             <button onClick={handleLogout} className="btn-logout">Logout</button>
           </div>
         </div>

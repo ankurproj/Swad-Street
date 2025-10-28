@@ -23,6 +23,8 @@ const LoginUser = () => {
       // Save user for UI personalization
       if (response?.data?.user) {
         localStorage.setItem('user', JSON.stringify(response.data.user));
+        // Clear any stale partner session to avoid role conflicts in header/pages
+        localStorage.removeItem('foodPartner');
       }
       setStatus({ type: 'success', message: 'Logged in successfully.' });
       setTimeout(() => navigate('/user/dashboard'), 900);

@@ -21,6 +21,8 @@ const LoginPartner = () => {
       );
       if (response?.data?.foodPartner) {
         localStorage.setItem('foodPartner', JSON.stringify(response.data.foodPartner));
+        // Clear any stale user session to avoid role conflicts in header/pages
+        localStorage.removeItem('user');
       }
       setStatus({ type: 'success', message: 'Logged in successfully.' });
       setTimeout(() => navigate('/food-partner/dashboard'), 900);
