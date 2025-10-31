@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/dashboard.css';
@@ -7,6 +7,7 @@ import ReelsModal from '../components/ReelsModal';
 const UserDashboard = () => {
   const navigate = useNavigate();
   const [showReels, setShowReels] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const user = useMemo(() => {
     try { return JSON.parse(localStorage.getItem('user') || 'null'); } catch { return null; }
   }, []);
@@ -27,6 +28,8 @@ const UserDashboard = () => {
     localStorage.removeItem('user');
     navigate('/user/login');
   };
+  const popularRef = useRef(null);
+  const ordersRef = useRef(null);
   // Sample data - in production this would come from API
   const restaurants = [
     { id: 1, name: 'Pizza Paradise', cuisine: 'Italian', rating: 4.5, delivery: '30-40 min', emoji: '🍕' },
@@ -48,11 +51,20 @@ const UserDashboard = () => {
       {/* Header */}
       <header className="dashboard-header">
         <div className="header-content">
-          <Link to="/" className="logo">Swad Street</Link>
+          <div className="header-left">
+            <button
+              className="hamburger-btn"
+              aria-label="Open navigation menu"
+              onClick={() => setMobileOpen(true)}
+            >
+              <span className="hamburger-icon"><span /></span>
+            </button>
+            <Link to="/" className="logo">Swad Street</Link>
+          </div>
           <nav className="header-nav">
             <Link to="/user/dashboard" className="nav-link active">Home</Link>
-            <Link to="/user/orders" className="nav-link">My Orders</Link>
-            <Link to="/user/favorites" className="nav-link">Favorites</Link>
+            <button type="button" className="nav-link btn-link" onClick={() => ordersRef.current?.scrollIntoView({ behavior: 'smooth'})}>My Orders</button>
+            <button type="button" className="nav-link btn-link" onClick={() => popularRef.current?.scrollIntoView({ behavior: 'smooth'})}>Favorites</button>
             <button type="button" className="nav-link btn-link" onClick={() => setShowReels(true)}>Reels</button>
           </nav>
           <div className="user-menu">
@@ -61,6 +73,26 @@ const UserDashboard = () => {
           </div>
         </div>
       </header>
+
+      {/* Mobile Drawer */}
+      {mobileOpen && (
+        <div className="mobile-drawer-overlay" onClick={() => setMobileOpen(false)} />
+      )}
+      <aside className={`mobile-drawer ${mobileOpen ? 'open' : ''}`} aria-hidden={!mobileOpen}>
+        <div className="mobile-drawer-header">
+          <span className="mobile-drawer-title">Menu</span>
+          <button className="mobile-drawer-close" aria-label="Close" onClick={() => setMobileOpen(false)}>✕</button>
+        </div>
+        <nav className="mobile-drawer-nav">
+          <Link to="/user/dashboard" className="mobile-drawer-link" onClick={() => setMobileOpen(false)}>🏠 Home</Link>
+          <button className="mobile-drawer-btn" onClick={() => { setMobileOpen(false); ordersRef.current?.scrollIntoView({ behavior:'smooth'}); }}>🧾 My Orders</button>
+          <button className="mobile-drawer-btn" onClick={() => { setMobileOpen(false); popularRef.current?.scrollIntoView({ behavior:'smooth'}); }}>⭐ Favorites</button>
+          <button className="mobile-drawer-btn" onClick={() => { setMobileOpen(false); setShowReels(true); }}>🎞️ Reels</button>
+          <div className="mobile-drawer-sep" />
+          <button className="mobile-drawer-btn mobile-logout" onClick={() => { setMobileOpen(false); handleLogout(); }}>🚪 Logout</button>
+        </nav>
+        <div className="mobile-drawer-footer" />
+      </aside>
 
       {/* Main Content */}
       <main className="dashboard-main">
@@ -115,7 +147,7 @@ const UserDashboard = () => {
         </div>
 
         {/* Popular Restaurants */}
-        <div className="section-header">
+        <div className="section-header" ref={popularRef}>
           <h2 className="section-title" style={{ fontSize: 'var(--font-size-2xl)' }}>Popular Restaurants</h2>
           <p className="section-subtitle">Top-rated places in your area</p>
         </div>
@@ -139,7 +171,7 @@ const UserDashboard = () => {
         </div>
 
         {/* Recent Orders */}
-        <div className="section-header" style={{ marginTop: 'var(--spacing-3xl)' }}>
+        <div className="section-header" style={{ marginTop: 'var(--spacing-3xl)' }} ref={ordersRef}>
           <h2 className="section-title" style={{ fontSize: 'var(--font-size-2xl)' }}>Recent Orders</h2>
           <p className="section-subtitle">Your order history</p>
         </div>

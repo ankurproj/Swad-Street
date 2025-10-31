@@ -28,15 +28,20 @@ export default function PartnerAnalytics(){
     <div className="dashboard">
       <header className="dashboard-header">
         <div className="header-content">
-          <Link to="/" className="logo">Swad Street Partner</Link>
+          <Link to="/" className="logo">Swad Street</Link>
           <nav className="header-nav">
-            <Link to="/food-partner/dashboard" className="nav-link">Dashboard</Link>
             <Link to="/food-partner/orders" className="nav-link">Orders</Link>
             <Link to="/food-partner/menu" className="nav-link">Menu</Link>
             <Link to="/food-partner/analytics" className="nav-link active">Analytics</Link>
           </nav>
           <div className="user-menu">
-            <div className="user-avatar" title={`${displayName}${ownerName && restaurantName && ownerName !== restaurantName ? ' • ' + (ownerName === displayName ? restaurantName : ownerName) : ''}`}>{initials}</div>
+            <div
+              className="user-avatar"
+              title={`${displayName}${ownerName && restaurantName && ownerName !== restaurantName ? ' • ' + (ownerName === displayName ? restaurantName : ownerName) : ''}`}
+              onClick={() => navigate('/food-partner/dashboard')}
+            >
+              {initials}
+            </div>
             <span className="role-badge" title="Logged in as Partner">Partner</span>
             <button onClick={handleLogout} className="btn-logout">Logout</button>
           </div>

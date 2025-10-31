@@ -22,7 +22,14 @@ body {
   padding: var(--spacing-xl);
   position: relative;
 }
-
+/* .auth-overlay{
+  position: fixed;
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+  inset: 0;
+  background: rgba(0,0,0, 0.75);
+} */
 .auth-card {
   background-color: var(--bg-primary);
   border-radius: var(--border-radius-lg);

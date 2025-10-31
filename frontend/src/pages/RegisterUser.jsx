@@ -39,7 +39,7 @@ const RegisterUser = () => {
     <>
       <Header />
       <div className="auth-container">
-        <div className="auth-card">
+        <div className="auth-card" >
           {/* Role Switcher */}
           <div className="role-switcher">
             <button className="role-btn active">User</button>

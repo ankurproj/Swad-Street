@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -7,29 +7,24 @@ import '../styles/auth.css';
 
 const LoginPartner = () => {
   const navigate = useNavigate();
-  const [status, setStatus] = useState({ type: '', message: '' });
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/auth/foodpartner/login",
-        { email, password },
-        { withCredentials: true }
-      );
-      if (response?.data?.foodPartner) {
-        localStorage.setItem('foodPartner', JSON.stringify(response.data.foodPartner));
-        // Clear any stale user session to avoid role conflicts in header/pages
-        localStorage.removeItem('user');
-      }
-      setStatus({ type: 'success', message: 'Logged in successfully.' });
+    const response = await axios.post("http://localhost:3000/api/auth/foodpartner/login",
+      {
+        email: e.target.email.value,
+        password: e.target.password.value,
+      },
+      { withCredentials: true }
+    );
+    if (response?.data?.foodPartner) {
+      localStorage.setItem('foodPartner', JSON.stringify(response.data.foodPartner));
       setTimeout(() => navigate('/food-partner/dashboard'), 900);
-    } catch (err) {
-      const msg = err?.response?.data?.message || 'Login failed. Please check your credentials.';
-      setStatus({ type: 'error', message: msg });
-    }
+      }
+      
+
+    // Navigate to partner dashboard after "login"
+    navigate('/food-partner/dashboard');
   };
 
   return (
@@ -52,11 +47,6 @@ const LoginPartner = () => {
           </div>
 
           <form className="auth-form" onSubmit={handleSubmit}>
-            {status.message && (
-              <div className={`alert ${status.type === 'success' ? 'alert-success' : 'alert-error'}`}>
-                {status.message}
-              </div>
-            )}
             <div className="form-group">
               <label className="form-label" htmlFor="email">Email Address</label>
               <input
