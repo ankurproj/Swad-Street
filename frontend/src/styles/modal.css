@@ -1,0 +1,98 @@
+@import './variables.css';
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+  overflow: hidden; /* keep scrollbar off the overlay */
+  overscroll-behavior: contain;
+}
+
+.modal-container {
+  max-width: var(--max-width-auth);
+  width: 100%;
+  outline: none;
+  /* The auth-card already has background/shadow; but if any consumer uses plain content, keep graceful defaults */
+  background: transparent;
+  /* Let the card handle scrolling so scrollbar appears inside the card */
+  max-height: none;
+  position: relative; /* anchor close button */
+}
+
+/* Ensure only the card scrolls inside the modal */
+.modal-container .auth-container {
+  padding: 0;
+  min-height: auto;
+}
+
+.modal-container .auth-card {
+  max-height: calc(100vh - 2 * var(--spacing-md));
+  overflow: auto;
+}
+.modal-close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  z-index: 2; /* ensure above content */
+}
+.modal-close-btn:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+@supports (height: 100dvh) {
+  .modal-container .auth-card {
+    max-height: calc(100dvh - 2 * var(--spacing-md));
+  }
+}
+
+/* Polished, subtle scrollbar inside the card */
+.modal-container .auth-card {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: var(--border-color) transparent; /* Firefox */
+}
+.modal-container .auth-card::-webkit-scrollbar {
+  width: 8px;
+}
+.modal-container .auth-card::-webkit-scrollbar-track {
+  background: transparent;
+}
+.modal-container .auth-card::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 8px;
+  border: 2px solid transparent;
+}
+
+/* When an auth page is inside modal, ensure the wrapper doesn't add extra spacing */
+.modal-container .auth-container {
+  padding: 0;
+  min-height: auto;
+}
+
+/* Center the card and remove extra top space (originally reserved for fixed header) */
+.modal-container .auth-container .auth-card {
+  margin: 0 auto;
+}
+
+/* Hide any page-level Header/Footer if rendered mistakenly inside children */
+.modal-hide-chrome header, .modal-hide-chrome footer {
+  display: none !important;
+}

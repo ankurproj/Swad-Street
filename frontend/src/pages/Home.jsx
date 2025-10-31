@@ -1,9 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import '../styles/landing.css';
 
 const Home = () => {
+  const location = useLocation();
+  const bg = { backgroundLocation: location };
   return (
     <div className="landing">
       <Header minimal={false} />
@@ -25,11 +27,11 @@ const Home = () => {
         </p>
 
         <div className="hero-cta">
-          <Link to="/user/register" className="cta-btn cta-btn-primary">
+          <Link to="/user/register" state={bg} className="cta-btn cta-btn-primary">
             <span>Order Now</span>
             <span>→</span>
           </Link>
-          <Link to="/food-partner/register" className="cta-btn cta-btn-secondary">
+          <Link to="/food-partner/register" state={bg} className="cta-btn cta-btn-secondary">
             <span>Partner With Us</span>
             <span>🤝</span>
           </Link>
@@ -188,10 +190,10 @@ const Home = () => {
             Join thousands of happy customers and restaurants on Swad Street today!
           </p>
           <div className="cta-buttons">
-            <Link to="/user/register" className="cta-btn-white">
+            <Link to="/user/register" state={bg} className="cta-btn-white">
               Order Food Now →
             </Link>
-            <Link to="/food-partner/register" className="cta-btn-white">
+            <Link to="/food-partner/register" state={bg} className="cta-btn-white">
               Register Your Restaurant →
             </Link>
           </div>
@@ -215,8 +217,8 @@ const Home = () => {
             <div className="footer-section">
               <h3>For Customers</h3>
               <ul className="footer-links">
-                <li><Link to="/user/login">Sign In</Link></li>
-                <li><Link to="/user/register">Create Account</Link></li>
+                <li><Link to="/user/login" state={bg}>Sign In</Link></li>
+                <li><Link to="/user/register" state={bg}>Create Account</Link></li>
                 <li><Link to="/help">Help & Support</Link></li>
                 <li><Link to="/offers">Offers</Link></li>
               </ul>
@@ -225,8 +227,8 @@ const Home = () => {
             <div className="footer-section">
               <h3>For Partners</h3>
               <ul className="footer-links">
-                <li><Link to="/food-partner/register">Partner With Us</Link></li>
-                <li><Link to="/food-partner/login">Partner Login</Link></li>
+                <li><Link to="/food-partner/register" state={bg}>Partner With Us</Link></li>
+                <li><Link to="/food-partner/login" state={bg}>Partner Login</Link></li>
                 <li><Link to="/partner-support">Partner Support</Link></li>
                 <li><Link to="/guidelines">Guidelines</Link></li>
               </ul>

@@ -215,13 +215,16 @@ button.nav-link:focus { outline: none; }
 }
 
 .btn-logout {
-  padding: var(--spacing-sm) var(--spacing-lg);
+  width: 36px;
+  height: 36px;
+  padding: 6px;
   background: transparent;
   border: 2px solid var(--border-color);
-  border-radius: var(--border-radius);
+  border-radius: 10px;
   color: var(--text-primary);
-  font-weight: var(--font-weight-medium);
-  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   transition: var(--transition-fast);
 }
@@ -545,5 +548,10 @@ button.nav-link:focus { outline: none; }
 
   .section-title {
     font-size: var(--font-size-2xl);
+  }
+
+  /* Make Swad Street logo text 18px on mobile */
+  .logo {
+    font-size: 18px;
   }
 }

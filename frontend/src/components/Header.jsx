@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const Header = ({ minimal = false }) => {
@@ -13,6 +14,9 @@ const Header = ({ minimal = false }) => {
   }, []);
   const actor = foodPartner || user;
   const role = foodPartner ? 'partner' : (user ? 'user' : null);
+
+  const location = useLocation();
+  const bg = { backgroundLocation: location };
 
   useEffect(() => {
     // Load theme from localStorage
@@ -123,11 +127,27 @@ const Header = ({ minimal = false }) => {
                 <span className="role-badge" title={role === 'partner' ? 'Logged in as Partner' : 'Logged in as User'}>
                   {role === 'partner' ? 'Partner' : 'User'}
                 </span>
-                <button className="header-logout-btn" onClick={handleLogout}>Logout</button>
+                <button className="header-logout-btn" onClick={handleLogout} aria-label="Logout" title="Logout">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                    <polyline points="16 17 21 12 16 7" />
+                    <line x1="21" y1="12" x2="9" y2="12" />
+                  </svg>
+                </button>
               </div>
             ) : (
               <div className="header-auth-links">
-                <Link to="/user/register" className="header-primary">Get Started</Link>
+                <Link to="/user/register" state={location.pathname === '/' ? bg : undefined} className="header-primary">Get Started</Link>
               </div>
             )}
           </div>

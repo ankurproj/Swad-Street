@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import axios from 'axios';
@@ -7,6 +7,8 @@ import '../styles/auth.css';
 
 const LoginUser = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const backgroundLocation = location.state && location.state.backgroundLocation;
   const [status, setStatus] = useState({ type: '', message: '' });
 
   const handleSubmit = async(e) => {
@@ -34,13 +36,13 @@ const LoginUser = () => {
 
   return (
     <>
-      <Header />
+      {!backgroundLocation && <Header />}
       <div className="auth-container">
         <div className="auth-card">
           {/* Role Switcher */}
           <div className="role-switcher">
             <button className="role-btn active">User</button>
-            <Link to="/food-partner/login" className="role-btn" style={{ textDecoration: 'none' }}>
+            <Link to="/food-partner/login" state={backgroundLocation ? { backgroundLocation } : undefined} className="role-btn" style={{ textDecoration: 'none' }}>
               Food Partner
             </Link>
           </div>
@@ -94,13 +96,13 @@ const LoginUser = () => {
             <div className="auth-footer">
               <p className="text-muted">
                 Don't have an account?{' '}
-                <Link to="/user/register" className="auth-link">Create account</Link>
+                <Link to="/user/register" state={backgroundLocation ? { backgroundLocation } : undefined} className="auth-link">Create account</Link>
               </p>
             </div>
           </form>
         </div>
       </div>
-      <Footer />
+      {!backgroundLocation && <Footer />}
     </>
   );
 };

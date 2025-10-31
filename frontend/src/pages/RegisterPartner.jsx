@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import axios from 'axios';
@@ -7,6 +7,8 @@ import '../styles/auth.css';
 
 const RegisterPartner = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const backgroundLocation = location.state && location.state.backgroundLocation;
 
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -37,12 +39,12 @@ const RegisterPartner = () => {
 
   return (
     <>
-      <Header />
+      {!backgroundLocation && <Header />}
       <div className="auth-container">
         <div className="auth-card">
           {/* Role Switcher */}
           <div className="role-switcher">
-            <Link to="/user/register" className="role-btn" style={{ textDecoration: 'none' }}>
+            <Link to="/user/register" state={backgroundLocation ? { backgroundLocation } : undefined} className="role-btn" style={{ textDecoration: 'none' }}>
               User
             </Link>
             <button className="role-btn active">Food Partner</button>
@@ -121,13 +123,13 @@ const RegisterPartner = () => {
             <div className="auth-footer">
               <p className="text-muted">
                 Already a partner?{' '}
-                <Link to="/food-partner/login" className="auth-link">Sign in</Link>
+                <Link to="/food-partner/login" state={backgroundLocation ? { backgroundLocation } : undefined} className="auth-link">Sign in</Link>
               </p>
             </div>
           </form>
         </div>
       </div>
-      <Footer />
+      {!backgroundLocation && <Footer />}
     </>
   );
 };
