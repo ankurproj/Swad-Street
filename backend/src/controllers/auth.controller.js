@@ -3,6 +3,15 @@ const foodPartnerModel = require('../models/foodpartner.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// Cookie options: secure defaults suitable for dev and production
+const isProd = process.env.NODE_ENV === 'production';
+const cookieOptions = {
+    httpOnly: true,
+    secure: isProd,              // required when sameSite is 'none' (in production)
+    sameSite: isProd ? 'none' : 'lax',
+    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+};
+
 async function registerUser(req, res) {
      
         const { fullName, email,phone, password } = req.body; // Destructure the request body
@@ -24,7 +33,7 @@ async function registerUser(req, res) {
             id: user._id,
         }, process.env.JWT_SECRET)
 
-        res.cookie("token", token)
+    res.cookie("token", token, cookieOptions)
 
         res.status(201).json({ 
             message: "User registered successfully",
@@ -60,7 +69,7 @@ async function loginUser(req, res) {
     const token = jwt.sign({
         id: user._id,
     }, process.env.JWT_SECRET)
-    res.cookie("token", token)
+    res.cookie("token", token, cookieOptions)
 
     res.status(200).json({
          message: "User logged in successfully",
@@ -72,7 +81,8 @@ async function loginUser(req, res) {
           })
 }
 function logoutUser(req, res) {
-    res.clearCookie("token");
+    // Use same options to ensure cookie is cleared correctly across environments
+    res.clearCookie("token", cookieOptions);
     res.status(200).json({
         message: "User logged out successfully"
     })
@@ -98,7 +108,7 @@ async function registerFoodPartner(req, res) {
         id: foodPartner._id,
     }, process.env.JWT_SECRET)
 
-    res.cookie("token", token)
+    res.cookie("token", token, cookieOptions)
 
     res.status(201).json({
         message: "Food Partner registered successfully",
@@ -131,11 +141,11 @@ async function loginFoodPartner(req, res) {
     const token = jwt.sign({
         id: foodPartner._id,
     }, process.env.JWT_SECRET)
-    res.cookie("token", token)
+    res.cookie("token", token, cookieOptions)
     res.status(200).json({
             message: "Food Partner logged in successfully",
             foodPartner: {
-               _id: foodPartner._id,
+               id: foodPartner._id, // standardized to 'id' to match register response
                email: foodPartner.email,
                name: foodPartner.name
             }
@@ -143,7 +153,7 @@ async function loginFoodPartner(req, res) {
 
 }
 function logoutFoodPartner(req, res) {
-    res.clearCookie("token");
+    res.clearCookie("token", cookieOptions);
     res.status(200).json({
         message: "Food Partner logged out successfully"
     })
