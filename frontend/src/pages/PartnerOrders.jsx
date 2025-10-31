@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/dashboard.css';
 
 export default function PartnerOrders(){
   const navigate = useNavigate();
+  const [mobileOpen, setMobileOpen] = useState(false);
   const handleLogout = async () => {
     try { await axios.post('http://localhost:3000/api/auth/foodpartner/logout', {}, { withCredentials: true }); } catch {}
     localStorage.removeItem('foodPartner');
@@ -28,7 +29,16 @@ export default function PartnerOrders(){
     <div className="dashboard">
       <header className="dashboard-header">
         <div className="header-content">
-          <Link to="/" className="logo">Swad Street</Link>
+          <div className="header-left">
+            <button
+              className="hamburger-btn"
+              aria-label="Open navigation menu"
+              onClick={() => setMobileOpen(true)}
+            >
+              <span className="hamburger-icon"><span /></span>
+            </button>
+            <Link to="/" className="logo">Swad Street</Link>
+          </div>
           <nav className="header-nav">
             <Link to="/food-partner/orders" className="nav-link active">Orders</Link>
             <Link to="/food-partner/menu" className="nav-link">Menu</Link>
@@ -47,6 +57,26 @@ export default function PartnerOrders(){
           </div>
         </div>
       </header>
+
+      {/* Mobile Drawer */}
+      {mobileOpen && (
+        <div className="mobile-drawer-overlay" onClick={() => setMobileOpen(false)} />
+      )}
+      <aside className={`mobile-drawer ${mobileOpen ? 'open' : ''}`} aria-hidden={!mobileOpen}>
+        <div className="mobile-drawer-header">
+          <span className="mobile-drawer-title">Menu</span>
+          <button className="mobile-drawer-close" aria-label="Close" onClick={() => setMobileOpen(false)}>✕</button>
+        </div>
+        <nav className="mobile-drawer-nav">
+          <Link to="/food-partner/dashboard" className="mobile-drawer-link" onClick={() => setMobileOpen(false)}>📊 Dashboard</Link>
+          <Link to="/food-partner/orders" className="mobile-drawer-link" onClick={() => setMobileOpen(false)}>🧾 Orders</Link>
+          <Link to="/food-partner/menu" className="mobile-drawer-link" onClick={() => setMobileOpen(false)}>🍽️ Menu</Link>
+          <Link to="/food-partner/analytics" className="mobile-drawer-link" onClick={() => setMobileOpen(false)}>📈 Analytics</Link>
+          <div className="mobile-drawer-sep" />
+          <button className="mobile-drawer-btn mobile-logout" onClick={() => { setMobileOpen(false); handleLogout(); }}>🚪 Logout</button>
+        </nav>
+        <div className="mobile-drawer-footer" />
+      </aside>
 
       <main className="dashboard-main">
         <div className="section-header">
