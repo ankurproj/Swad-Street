@@ -11,7 +11,13 @@ const Home = () => {
       <Header minimal={false} />
 
       {/* Hero Section */}
-      <section className="hero">
+      <section
+        className="hero hero-with-bg"
+        style={{
+          backgroundImage:
+            'url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1800&q=80")',
+        }}
+      >
         <div className="hero-badge">
           <span>🎉</span>
           <span>Now delivering to 100+ cities</span>
@@ -37,9 +43,7 @@ const Home = () => {
           </Link>
         </div>
 
-        <div className="hero-image">
-          🍕🍔🍜🍱🌮
-        </div>
+        {/* Background image handled via CSS on .hero-with-bg */}
       </section>
 
       {/* Features Section */}
