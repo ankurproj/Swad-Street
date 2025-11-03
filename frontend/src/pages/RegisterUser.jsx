@@ -51,9 +51,9 @@ const RegisterUser = () => {
           </div>
 
           <div className="auth-header">
-            <div className="auth-logo">Swad Street</div>
-            <h2 className="auth-title">Join Swad Street</h2>
-            <p className="auth-subtitle">Create your account and start exploring amazing food</p>
+            <div className="auth-logo">Join Swad Street</div>
+            {/* <h2 className="auth-title">Join Swad Street</h2> */}
+            {/* <p className="auth-subtitle">Create your account and start exploring amazing food</p> */}
           </div>
 
           <form className="auth-form" onSubmit={handleSubmit}>

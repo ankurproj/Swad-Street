@@ -43,9 +43,9 @@ const LoginPartner = () => {
           </div>
 
           <div className="auth-header">
-            <div className="auth-logo">Swad Street Partner</div>
-            <h2 className="auth-title">Partner Portal</h2>
-            <p className="auth-subtitle">Sign in to manage your restaurant and orders</p>
+            <div className="auth-logo">Sign In as Partner</div>
+            {/* <h2 className="auth-title">Partner Portal</h2>
+            <p className="auth-subtitle">Sign in to manage your restaurant and orders</p> */}
           </div>
 
           <form className="auth-form" onSubmit={handleSubmit}>

@@ -48,9 +48,9 @@ const LoginUser = () => {
           </div>
 
           <div className="auth-header">
-            <div className="auth-logo">Swad Street</div>
-            <h2 className="auth-title">Welcome Back!</h2>
-            <p className="auth-subtitle">Sign in to discover great food and restaurants near you</p>
+            <div className="auth-logo">Sign In to Swad Street</div>
+            {/* <h2 className="auth-title">Welcome Back!</h2>
+            <p className="auth-subtitle">Sign in to discover great food and restaurants near you</p> */}
           </div>
 
           <form className="auth-form" onSubmit={handleSubmit}>

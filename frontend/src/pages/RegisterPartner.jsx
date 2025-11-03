@@ -51,9 +51,9 @@ const RegisterPartner = () => {
           </div>
 
           <div className="auth-header">
-            <div className="auth-logo">Swad Street Partner</div>
-            <h2 className="auth-title">Partner With Us</h2>
-            <p className="auth-subtitle">Register your restaurant and reach millions of customers</p>
+            <div className="auth-logo">Join as Swad Street Partner</div>
+            {/* <h2 className="auth-title">Partner With Us</h2>
+            <p className="auth-subtitle">Register your restaurant and reach millions of customers</p> */}
           </div>
 
           <form className="auth-form" onSubmit={handleSubmit}>
