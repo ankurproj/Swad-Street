@@ -231,18 +231,17 @@ const Home = () => {
             </div>
 
             <div className="feature-card">
-              <div className="feature-icon"><IconDelivery /></div>
-              <h3 className="feature-title">Fast Delivery</h3>
-              <p className="feature-description">
-                Get your food delivered in under 30 minutes. We value your time and hunger!
-              </p>
-            </div>
-
-            <div className="feature-card">
               <div className="feature-icon"><IconBookmark /></div>
               <h3 className="feature-title">Save Reels</h3>
               <p className="feature-description">
                 Save favorite recipies reels for future!
+              </p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon"><IconDelivery /></div>
+              <h3 className="feature-title">Fast Delivery</h3>
+              <p className="feature-description">
+                Get your food delivered in under 30 minutes. We value your time and hunger!
               </p>
             </div>
 
@@ -254,13 +253,13 @@ const Home = () => {
               </p>
             </div>
 
-            <div className="feature-card">
+            {/* <div className="feature-card">
               <div className="feature-icon"><IconQuality /></div>
               <h3 className="feature-title">Quality Assured</h3>
               <p className="feature-description">
                 Only the best restaurants. We maintain high quality standards for you.
               </p>
-            </div>
+            </div> */}
 
             <div className="feature-card">
               <div className="feature-icon"><IconMobile /></div>
