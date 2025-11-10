@@ -179,8 +179,8 @@ const Home = () => {
         </h1>
 
         <p className="hero-subtitle hero-typer" aria-live="polite">
-          <span className="typewriter-text">{displayText}</span>
-          <span className="typewriter-caret">|</span>
+          <span className="typewriter-text">👻{displayText}</span>
+          {/* <span className="typewriter-caret">|</span> */}
         </p>
 
         <div className="hero-cta">

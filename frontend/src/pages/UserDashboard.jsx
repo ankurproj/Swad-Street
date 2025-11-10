@@ -34,7 +34,7 @@ const UserDashboard = () => {
   const handleLogout = async () => {
     try {
       await axios.post('http://localhost:3000/api/auth/user/logout', {}, { withCredentials: true });
-    } catch {}
+    } catch { }
     localStorage.removeItem('user');
     navigate('/user/login');
   };
@@ -70,7 +70,7 @@ const UserDashboard = () => {
     }
   };
   useEffect(() => { loadMealAreas(); }, []);
-  
+
   // Typewriter effect for hero subtitle
   useEffect(() => {
     const current = heroPhrases[typerIndex % heroPhrases.length] || '';
@@ -167,14 +167,14 @@ const UserDashboard = () => {
           timeout: 20000,
         });
         return data;
-      } catch {}
+      } catch { }
       try {
         const { data } = await axios.post(ep, query, {
           headers: { 'Content-Type': 'text/plain', 'Accept': 'application/json' },
           timeout: 20000,
         });
         return data;
-      } catch {}
+      } catch { }
     }
     throw new Error('All Overpass endpoints failed');
   };
@@ -195,16 +195,16 @@ const UserDashboard = () => {
       setNearbyError('Failed to load nearby restaurants. Please try again. (Tip: enable location or search by city).');
     } finally { setNearbyLoading(false); }
   };
-  
+
   const distanceKm = (lat1, lon1, lat2, lon2) => {
     if ([lat1, lon1, lat2, lon2].some(v => v === '' || v === null || v === undefined)) return null;
     const R = 6371; // km
     const dLat = (lat2 - lat1) * Math.PI / 180;
     const dLon = (lon2 - lon1) * Math.PI / 180;
-    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-              Math.sin(dLon/2) * Math.sin(dLon/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
   };
 
@@ -274,7 +274,7 @@ const UserDashboard = () => {
             const json = await resp.json();
             if (Array.isArray(json) && json.length) { results = json; break; }
           }
-        } catch {}
+        } catch { }
       }
       // Fallback: Photon (Komoot) geocoder
       if (!results.length) {
@@ -288,7 +288,7 @@ const UserDashboard = () => {
               results = [{ lat, lon }];
             }
           }
-        } catch {}
+        } catch { }
       }
       if (!results.length) throw new Error('No results found for that location.');
       const { lat, lon } = results[0];
@@ -320,8 +320,8 @@ const UserDashboard = () => {
           </div>
           <nav className="header-nav">
             <Link to="/user/dashboard" className="nav-link active">Home</Link>
-            <button type="button" className="nav-link btn-link" onClick={() => ordersRef.current?.scrollIntoView({ behavior: 'smooth'})}>My Orders</button>
-            <button type="button" className="nav-link btn-link" onClick={() => popularRef.current?.scrollIntoView({ behavior: 'smooth'})}>Favorites</button>
+            <button type="button" className="nav-link btn-link" onClick={() => ordersRef.current?.scrollIntoView({ behavior: 'smooth' })}>My Orders</button>
+            <button type="button" className="nav-link btn-link" onClick={() => popularRef.current?.scrollIntoView({ behavior: 'smooth' })}>Favorites</button>
             <button type="button" className="nav-link btn-link" onClick={() => setShowReels(true)}>Reels</button>
           </nav>
           <div className="user-menu">
@@ -358,8 +358,8 @@ const UserDashboard = () => {
         </div>
         <nav className="mobile-drawer-nav">
           <Link to="/user/dashboard" className="mobile-drawer-link" onClick={() => setMobileOpen(false)}>🏠 Home</Link>
-          <button className="mobile-drawer-btn" onClick={() => { setMobileOpen(false); ordersRef.current?.scrollIntoView({ behavior:'smooth'}); }}>🧾 My Orders</button>
-          <button className="mobile-drawer-btn" onClick={() => { setMobileOpen(false); popularRef.current?.scrollIntoView({ behavior:'smooth'}); }}>⭐ Favorites</button>
+          <button className="mobile-drawer-btn" onClick={() => { setMobileOpen(false); ordersRef.current?.scrollIntoView({ behavior: 'smooth' }); }}>🧾 My Orders</button>
+          <button className="mobile-drawer-btn" onClick={() => { setMobileOpen(false); popularRef.current?.scrollIntoView({ behavior: 'smooth' }); }}>⭐ Favorites</button>
           <button className="mobile-drawer-btn" onClick={() => { setMobileOpen(false); setShowReels(true); }}>🎞️ Reels</button>
           <div className="mobile-drawer-sep" />
           <button className="mobile-drawer-btn mobile-logout" onClick={() => { setMobileOpen(false); handleLogout(); }}>🚪 Logout</button>
@@ -373,23 +373,23 @@ const UserDashboard = () => {
         <section
           className="hero-banner"
           style={{
-            backgroundImage: 'url("https://loremflickr.com/1600/600/food,restaurant?lock=101")',
+            backgroundImage: 'url("https://www.shutterstock.com/image-photo/background-food-dishes-european-cuisine-260nw-2490284951.jpg")',
           }}
           aria-label="Welcome banner"
         >
           <div className="hero-overlay" />
           <div className="hero-content">
-            <h1 className="hero-title">What would you like to eat?</h1>
-            <p className="hero-typer" aria-live="polite">
-              <span className="typewriter-text">{displayText}</span>
-              <span className="typewriter-caret">|</span>
+            <h1 className="hero-title" id="title-userdashboard">What would you like to eat?</h1>
+            <p className="hero-typer" aria-live="polite" id="typer-userdashboard">
+              <span className="typewriter-text">👊{displayText}</span>
+              {/* <span className="typewriter-caret">|</span> */}
             </p>
           </div>
         </section>
 
         {/* Removed legacy search bar (previous static UI) */}
 
-        
+
 
         {/* Explore Dishes & Cuisines (TheMealDB) */}
         <div className="section-header" style={{ marginTop: 'var(--spacing-2xl)' }} ref={popularRef}>
@@ -397,7 +397,7 @@ const UserDashboard = () => {
           {/* <p className="section-subtitle">Powered by TheMealDB</p> */}
         </div>
 
-  <div className="stats-grid">
+        <div className="stats-grid">
           <div className="card feature-card" style={{ padding: 0 }}>
             <div className="card-content">
               <h3 className="card-title">🔎 Search Dishes</h3>
@@ -450,8 +450,8 @@ const UserDashboard = () => {
                   <div className="section-subtitle" style={{ marginBottom: '8px' }}>Ingredients</div>
                   <ul style={{ columns: 2, paddingLeft: '18px' }}>
                     {Array.from({ length: 20 }).map((_, i) => {
-                      const ing = selectedMeal[`strIngredient${i+1}`];
-                      const meas = selectedMeal[`strMeasure${i+1}`];
+                      const ing = selectedMeal[`strIngredient${i + 1}`];
+                      const meas = selectedMeal[`strMeasure${i + 1}`];
                       return ing ? <li key={i}>{ing}{meas ? ` - ${meas}` : ''}</li> : null;
                     })}
                   </ul>
@@ -478,7 +478,7 @@ const UserDashboard = () => {
               ))}
             </div>
             {mealVisible < mealResults.length && (
-              <div style={{ display:'flex', justifyContent:'center', marginTop: 'var(--spacing-lg)' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: 'var(--spacing-lg)' }}>
                 <button className="btn btn-secondary" onClick={() => setMealVisible(v => v + 9)}>Load More</button>
               </div>
             )}
@@ -493,7 +493,7 @@ const UserDashboard = () => {
           {/* <p className="section-subtitle">Powered by OpenStreetMap Overpass</p> */}
         </div>
 
-  <div className="stats-grid">
+        <div className="stats-grid">
           <div className="card feature-card" style={{ padding: 0 }}>
             <div className="card-content">
               <h3 className="card-title">📍 Use My Location</h3>
@@ -550,15 +550,15 @@ const UserDashboard = () => {
                   <div key={`${n.type}-${n.id}`} className="card">
                     <div className="card-image" style={{ backgroundImage: `url("${foodImg}")`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
                     <div className="card-content">
-                      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'start', gap: 12 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', gap: 12 }}>
                         <div>
                           <h3 className="card-title" style={{ marginBottom: 4 }}>{name}</h3>
                           {cuisines.length ? (
                             <div className="tags-row">
-                              {cuisines.slice(0,3).map((c, i) => (
+                              {cuisines.slice(0, 3).map((c, i) => (
                                 <span key={i} className="badge primary">{c}</span>
                               ))}
-                              {cuisines.length > 3 && <span className="badge">+{cuisines.length-3}</span>}
+                              {cuisines.length > 3 && <span className="badge">+{cuisines.length - 3}</span>}
                             </div>
                           ) : (
                             <p className="card-subtitle" style={{ marginBottom: 8 }}>{cuisine}</p>
@@ -581,7 +581,7 @@ const UserDashboard = () => {
               })}
             </div>
             {nearbyVisible < nearby.length && (
-              <div style={{ display:'flex', justifyContent:'center', marginTop: 'var(--spacing-lg)' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: 'var(--spacing-lg)' }}>
                 <button className="btn btn-secondary" onClick={() => setNearbyVisible(v => v + 9)}>Load More</button>
               </div>
             )}
